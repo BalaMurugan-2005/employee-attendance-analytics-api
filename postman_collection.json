@@ -1,0 +1,292 @@
+{
+  "info": {
+    "name": "Employee Attendance & Analytics API",
+    "_postman_id": "hrone-attendance-api",
+    "description": "Collection for testing all endpoints of the Employee Attendance & Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "2. Create Employee",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emp_code\": \"EMP0001\",\n  \"name\": \"Asha Rao\",\n  \"email\": \"asha.rao@example.com\",\n  \"department\": \"Engineering\",\n  \"shift_start\": \"09:30\",\n  \"shift_end\": \"18:30\",\n  \"joined_on\": \"2026-01-05\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/employees",
+          "host": ["{{baseUrl}}"],
+          "path": ["employees"]
+        }
+      }
+    },
+    {
+      "name": "3. List Employees",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/employees?page=1&page_size=20",
+          "host": ["{{baseUrl}}"],
+          "path": ["employees"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "page_size",
+              "value": "20"
+            },
+            {
+              "key": "department",
+              "value": "Engineering",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Punch In",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emp_code\": \"EMP0001\",\n  \"status\": \"PRESENT\",\n  \"punched_at\": 1783312500000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/attendance/punch-in",
+          "host": ["{{baseUrl}}"],
+          "path": ["attendance", "punch-in"]
+        }
+      }
+    },
+    {
+      "name": "5. Punch Out",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emp_code\": \"EMP0001\",\n  \"punched_at\": 1783345200000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/attendance/punch-out",
+          "host": ["{{baseUrl}}"],
+          "path": ["attendance", "punch-out"]
+        }
+      }
+    },
+    {
+      "name": "6. List Attendance",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/attendance?date_from=2026-07-01&date_to=2026-07-31&page=1&page_size=20",
+          "host": ["{{baseUrl}}"],
+          "path": ["attendance"],
+          "query": [
+            {
+              "key": "date_from",
+              "value": "2026-07-01"
+            },
+            {
+              "key": "date_to",
+              "value": "2026-07-31"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "page_size",
+              "value": "20"
+            },
+            {
+              "key": "emp_code",
+              "value": "EMP0001",
+              "disabled": true
+            },
+            {
+              "key": "status",
+              "value": "PRESENT",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Regularize Attendance",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"punch_in\": 1783310400000,\n  \"reason\": \"Biometric scanner failed at the gate\",\n  \"regularized_by\": \"HR Admin\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/attendance/EMP0001/2026-07-06",
+          "host": ["{{baseUrl}}"],
+          "path": ["attendance", "EMP0001", "2026-07-06"]
+        }
+      }
+    },
+    {
+      "name": "8. Employee Monthly Analytics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/employees/EMP0001/monthly?month=2026-07",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "employees", "EMP0001", "monthly"],
+          "query": [
+            {
+              "key": "month",
+              "value": "2026-07"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Department Monthly Summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/departments/summary?month=2026-07",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "departments", "summary"],
+          "query": [
+            {
+              "key": "month",
+              "value": "2026-07"
+            },
+            {
+              "key": "department",
+              "value": "Engineering",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "10. Late-Comers Leaderboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/leaderboard/late?month=2026-07&limit=10",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "leaderboard", "late"],
+          "query": [
+            {
+              "key": "month",
+              "value": "2026-07"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "department",
+              "value": "Engineering",
+              "disabled": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "11. Department Daily Trend",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/departments/Engineering/trend?from=2026-07-01&to=2026-07-10",
+          "host": ["{{baseUrl}}"],
+          "path": ["analytics", "departments", "Engineering", "trend"],
+          "query": [
+            {
+              "key": "from",
+              "value": "2026-07-01"
+            },
+            {
+              "key": "to",
+              "value": "2026-07-10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "12. Admin Explain Query",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/admin/explain/attendance_list?date_from=2026-07-01&date_to=2026-07-31",
+          "host": ["{{baseUrl}}"],
+          "path": ["admin", "explain", "attendance_list"],
+          "query": [
+            {
+              "key": "date_from",
+              "value": "2026-07-01"
+            },
+            {
+              "key": "date_to",
+              "value": "2026-07-31"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
